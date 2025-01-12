@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-backend
+  labels:
+    app: {{ .Release.Name }}-backend
+spec:
+  selector:
+    app: {{ .Release.Name }}-backend
+  ports:
+    - protocol: TCP
+      port: 3001  # Port that Kubernetes will expose
+      targetPort: 3001  # Port where your backend application listens
+  type: ClusterIP  # Change this if you need LoadBalancer or NodePort

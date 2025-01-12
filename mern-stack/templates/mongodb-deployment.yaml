@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+spec:
+  replicas: {{ .Values.replicaCount.backend }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-backend
+    spec:
+      containers:
+      - name: backend
+        image: "{{ .Values.image.backend.repository }}:{{ .Values.image.backend.tag }}"
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+        env:
+        - name: MONGO_URI
+          value: "{{ .Values.backend.env.MONGO_URI }}"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.backend.requests.memory }}"
+            cpu: "{{ .Values.resources.backend.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.backend.limits.memory }}"
+            cpu: "{{ .Values.resources.backend.limits.cpu }}"

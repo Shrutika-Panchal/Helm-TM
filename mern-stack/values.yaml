@@ -1,0 +1,66 @@
+# Global settings for the application
+app:
+  name: TravelMemory-helm
+
+# Image settings for the frontend and backend
+image:
+  frontend:
+    repository: shrutikapanchal/tm-helm/frontend
+    tag: latest
+  backend:
+    repository: shrutikapanchal/tm-helm/backend
+    tag: latest
+
+# Replica settings
+replicaCount:
+  frontend: 2
+  backend: 2
+
+# MongoDB settings (Not required if using MongoDB Atlas)
+mongodb:
+  enabled: false
+  persistence:
+    enabled: false
+
+# Frontend settings
+frontend:
+  port: 80
+
+# Backend settings
+backend:
+  port: 3001
+  env:
+    MONGO_URI: "mongodb+srv://Shrutika-Panchal:shrutika@shrutikacluster.g1ht5l3.mongodb.net/TM-docker"
+
+# Autoscaling settings
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+# Resources and limits
+resources:
+  frontend:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  backend:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+
+# Service settings
+service:
+  frontend:
+    type: ClusterIP
+    port: 3000
+  backend:
+    type: ClusterIP
+    port: 3001
